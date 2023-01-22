@@ -1,0 +1,57 @@
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        
+        // setup the final answer
+        vector<vector<string>> ans;
+
+        // set up the path
+        vector<string> strVec;
+
+        // call the recursion function
+        backtrack(0,s,strVec,ans);
+
+        // return the answer
+        return ans;
+
+    }
+
+    // function for backtracking
+    void backtrack( int start , string s , vector<string> &strVec , vector<vector<string>> &ans){
+        
+        // base case : when start reaches end then
+        if ( start == s.size() ){
+            ans.push_back(strVec);
+            return;
+        }
+
+        // iterate from start to end for finding perfect partition
+        for( int i = start ; i < s.size() ; i++ ){
+
+            // check if s[start:i] is palindrome
+            if(isPalindrome(s,start,i)){
+
+                // push the palindrome string
+                strVec.push_back(s.substr(start,i-start+1));
+
+                // call further recursion function
+                backtrack(i+1,s,strVec,ans);
+
+                // pop back
+                strVec.pop_back();
+            }
+        }
+
+    }
+
+    // function for checking whether string is palindrome or not
+    int isPalindrome(string s,int start ,int end){
+        while(start <= end){
+            if(s[start++] != s[end--]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+};
